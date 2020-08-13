@@ -5,15 +5,19 @@ pool:
   vmImage: 'ubuntu-latest'
 
 stages:
-  - stage: validate
+  - stage: install
     jobs:
-      - job: validate
+      - job: install
         continueOnError: false
         steps:
           - task: TerraformInstaller@0
             inputs:
               terraformVersion: '0.12.28'
-          - task: TerraformTaskV1@0
+          - task: init
             inputs:
-              provider: 'azurerm'
-              command: 'init'
+              targetType: 'inline'
+              script: |
+                # Write your commands here
+                
+                echo 'Hello world'
+                terraform -version
