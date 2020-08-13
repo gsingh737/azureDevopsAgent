@@ -18,5 +18,4 @@ stages:
               targetType: 'inline'
               script: |
                 # Write your commands here
-                terraform -version
-                echo 'Hello world'
+                terraform init
