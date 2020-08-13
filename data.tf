@@ -13,10 +13,10 @@ data "azurerm_subnet" "devops_subnet" {
   resource_group_name  = var.vnet_rg_name
 }
 
-data "azurerm_network_security_group" "devops_nsg" {
-  name                = var.vnet_nsg_name
-  resource_group_name = var.vnet_rg_name
-}
+# data "azurerm_network_security_group" "devops_nsg" {
+#   name                = var.vnet_nsg_name
+#   resource_group_name = var.vnet_rg_name
+# }
 
 data "azurerm_storage_account" "devops_vm_stor" {
   name                = var.diag_store_name
@@ -32,9 +32,6 @@ data "template_file" "linux-vm-cloud-init" {
     devops_pat = var.devops_pat
     devops_agent_name = var.devops_agent_name
     devops_pool = var.devops_pool
+    devops_agent_per_vm = var.devops_agent_per_vm
   }
 }
-
-data "template_file" "windows-vm-init" {
-    template = file(var.windows_init_file)
-} 

@@ -1,4 +1,6 @@
 variable rg_name { default = "devops-agent-rg" }
+variable vm_count { default = "1" }
+variable avset_name {default = "devops-avset"}
 variable vnet_rg_name { default = "devops-rg" }
 variable vnet_name { default = "devopsvnet" }
 variable vnet_subnet_name { default = "devopssubnet" }
@@ -13,7 +15,8 @@ variable devops_url { default = "https://dev.azure.com/<DEVOPS ORGANIZATION>" }
 variable devops_pat { default = "rdbgw5a3s...." }
 variable devops_win_pat { default = "rdbgw5a3s...." }
 variable admin_password { default = "Passw0rd1!" }
-variable devops_pool { default = "DevOps Agent Self-Hosted Pool" }
-variable devops_agent_name { default = "SelfHostedAgent01" }
+variable devops_pool { default = "DevOps_Agent_Self-Hosted_Pool" }
+variable devops_agent_count_per_vm { default = "1" }
+variable devops_agent_name { default = "LinuxSelfHostedAgent" }
 variable devops_win_agent_name { default = "WindowsSelfHostedAgent01" }
 variable ssh_pub_key { default = "ssh-rsa AAAAB3NzaC1yc2...."}
