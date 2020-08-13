@@ -108,4 +108,4 @@ runcmd:
   - systemctl start docker
   - systemctl enable docker
   - chown -R azuredevopsuser:azuredevopsuser /home/azuredevopsuser/
-  - ./home/azuredevopsuser/start.sh ${devops_url}' '${devops_pat}' '${devops_agent_name}' '${devops_pool} ${devops_agent_per_vm}'
+  - ./home/azuredevopsuser/start.sh '${devops_url}' '${devops_pat}' '${devops_agent_name}' '${devops_pool}' '${devops_agent_per_vm}'
