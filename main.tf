@@ -37,7 +37,7 @@ resource "azurerm_network_interface" "devops_vm_nic" {
 
 resource "azurerm_availability_set" "avset" {
  name                         = var.avset_name
- location                     = azurerm_resource_group.devops_rg.name
+ location                     = azurerm_resource_group.devops_rg.location
  resource_group_name          = azurerm_resource_group.devops_rg.name
 }
 
