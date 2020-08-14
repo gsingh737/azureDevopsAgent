@@ -64,7 +64,7 @@ write_files:
     AGENTURL="https://vstsagentpackage.azureedge.net/agent/$${AGENTRELEASE}/vsts-agent-linux-x64-$${AGENTRELEASE}.tar.gz"
     echo "Release "$${AGENTRELEASE}" appears to be latest" 
     echo "Downloading..."
-    wget -q -O agent_package.tar.gz ${AGENTURL} 
+    wget -q -O agent_package.tar.gz $${AGENTURL} 
 
 
     for agent_num in $(seq 1 $az_devops_agents_per_vm); do
