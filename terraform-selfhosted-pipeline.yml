@@ -56,7 +56,7 @@ stages:
                     terraform plan \
                     -var devops_url=$(devops_url) \
                     -var devops_pat=$(devops_pat)  \
-                    -var="ssh_pub_key=$(ssh_pub_key)"' 
+                    -var="ssh_pub_key=$(ssh_pub_key)" 
               - task: Bash@3
                 displayName: apply
                 inputs:
@@ -66,4 +66,4 @@ stages:
                     terraform apply \
                     -var devops_url=$(devops_url) \
                     -var devops_pat=$(devops_pat)  \
-                    -var="ssh_pub_key=$(ssh_pub_key)"'
+                    -var="ssh_pub_key=$(ssh_pub_key)"
