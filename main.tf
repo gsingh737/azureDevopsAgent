@@ -22,7 +22,7 @@ resource "azurerm_network_interface" "devops_vm_nic" {
         # public_ip_address_id        = azurerm_public_ip.devops_public_ip.id  // Remove this if no public ip is required.
     }
 
-    count                           = var.az_devops_agent_vm_count
+    count                           = var.vm_count
     tags = azurerm_resource_group.devops_rg.tags
 
 }
