@@ -10,25 +10,28 @@ resource "azurerm_resource_group" "devops_rg" {
 
 // Network interface card for the Azure VM.
 resource "azurerm_network_interface" "devops_vm_nic" {
-    name                        = "${var.vm_name}nic"
+    name                        = "${var.vm_name}-nic-${format("%03d", count.index + 1)}"
     location                    = azurerm_resource_group.devops_rg.location
     resource_group_name         = var.rg_name
 
     ip_configuration {
         name                          = "${var.vm_name}NicConfig"
         subnet_id                     = data.azurerm_subnet.devops_subnet.id
-        private_ip_address_allocation = "Dynamic"
-        public_ip_address_id          = azurerm_public_ip.devops_public_ip.id  // Remove this if no public ip is required.
+        private_ip_address_allocation = "Static"
+        private_ip_address            = "${cidrhost(data.azurerm_subnet.devops_subnet.address_prefix, 10 + count.index)}"
+        # public_ip_address_id        = azurerm_public_ip.devops_public_ip.id  // Remove this if no public ip is required.
     }
 
+    count                           = var.az_devops_agent_vm_count
     tags = azurerm_resource_group.devops_rg.tags
+
 }
 
 // Connect the security group to the network interface
-resource "azurerm_network_interface_security_group_association" "devops_vm_nic" {
-    network_interface_id      = azurerm_network_interface.devops_vm_nic.id
-    network_security_group_id = data.azurerm_network_security_group.devops_nsg.id
-}
+# resource "azurerm_network_interface_security_group_association" "devops_vm_nic" {
+#     network_interface_id      = azurerm_network_interface.devops_vm_nic.id
+#     network_security_group_id = data.azurerm_network_security_group.devops_nsg.id
+# }
 
 
 
@@ -42,15 +45,15 @@ resource "azurerm_availability_set" "avset" {
 // Azure VM to be used for hosting the Azure Pipelines agent
 resource "azurerm_linux_virtual_machine" "devops_vm" {
     count                 = var.vm_count
-    name                  = var.vm_name
+    name                  = "${var.vm_name}-${format("%03d", count.index + 1)}"
     location              = azurerm_resource_group.devops_rg.location
     resource_group_name   = azurerm_resource_group.devops_rg.name
     availability_set_id   = azurerm_availability_set.avset.id
-    network_interface_ids = [azurerm_network_interface.devops_vm_nic.id]
+    network_interface_ids = [azurerm_network_interface.devops_vm_nic[count.index].id]
     size                  = "Standard_DS1_v2"
 
     os_disk {
-        name              = "${var.vm_name}OsDisk"
+        name              = "${var.vm_name}OsDisk${format("%03d", count.index + 1)}"
         caching           = "ReadWrite"
         storage_account_type = "Premium_LRS"
     }
@@ -63,11 +66,11 @@ resource "azurerm_linux_virtual_machine" "devops_vm" {
     }
 
     computer_name  = var.vm_name
-    admin_username = "azureuser"
+    admin_username = "azuredevopsuser"
     disable_password_authentication = true
 
     admin_ssh_key {
-        username       = "azureuser"
+        username       = "azuredevopsuser"
         public_key     = var.ssh_pub_key
     }
 
