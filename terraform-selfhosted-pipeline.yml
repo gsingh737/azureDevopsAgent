@@ -54,6 +54,7 @@ stages:
                   script: |
                     # Write your commands here
                     terraform plan \
+                    -input=false \
                     -var devops_url=$(devops_url) \
                     -var devops_pat=$(devops_pat)  \
                     -var="ssh_pub_key=$(ssh_pub_key)" 
@@ -64,6 +65,8 @@ stages:
                   script: |
                     # Write your commands here
                     terraform apply \
+                    -auto-approve \
+                    -input=false \
                     -var devops_url=$(devops_url) \
                     -var devops_pat=$(devops_pat)  \
                     -var="ssh_pub_key=$(ssh_pub_key)"
