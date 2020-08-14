@@ -54,7 +54,6 @@ stages:
                   script: |
                     # Write your commands here
                     terraform plan \
-                    -auto-approve \
                     -input=false \
                     -var devops_url=$(devops_url) \
                     -var devops_pat=$(devops_pat)  \
