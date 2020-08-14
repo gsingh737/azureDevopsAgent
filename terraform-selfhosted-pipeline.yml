@@ -5,23 +5,65 @@ pool:
   vmImage: 'ubuntu-latest'
 
 stages:
-  - stage: install
+  - stage: Validate
     jobs:
       - job: install
         continueOnError: false
         steps:
           - task: TerraformInstaller@0
+            displayName: 'install'
             inputs:
               terraformVersion: '0.12.28'
           - task: Bash@3
+            displayName: 'init'
             inputs:
               targetType: 'inline'
               script: |
-                # Write your commands here
                 terraform init
           - task: Bash@3
+            displayName: 'validate'
             inputs:
               targetType: 'inline'
               script: |
-                # Write your commands here
-                terraform validate                
+                terraform validate
+  - stage: Deploy
+    jobs:
+    - deployment: deploy_terraform
+      continueOnError: false
+      environment: 'dev'
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+              - checkout: self
+              - task: TerraformInstaller@0
+                displayName: 'install'
+                inputs:
+                  terraformVersion: '0.12.28'
+              - task: Bash@3
+                displayName: init
+                inputs:
+                  targetType: 'inline'
+                  script: |
+                    # Write your commands here
+                    terraform init
+              - task: Bash@3
+                displayName: plan
+                inputs:
+                  targetType: 'inline'
+                  script: |
+                    # Write your commands here
+                    terraform plan \
+                    -var devops_url=$(devops_url) \
+                    -var devops_pat=$(devops_pat)  \
+                    -var="ssh_pub_key=$(ssh_pub_key)" 
+              - task: Bash@3
+                displayName: apply
+                inputs:
+                  targetType: 'inline'
+                  script: |
+                    # Write your commands here
+                    terraform apply \
+                    -var devops_url=$(devops_url) \
+                    -var devops_pat=$(devops_pat)  \
+                    -var="ssh_pub_key=$(ssh_pub_key)"
