@@ -71,7 +71,7 @@ write_files:
       agent_dir="agent-$agent_num"
       mkdir -p "$agent_dir"
       pushd "$agent_dir"
-        agent_id="${agent_num}_${az_devops_agent_name}"
+        agent_id="$${agent_num}_$${az_devops_agent_name}"
         echo "installing agent $agent_id"
         tar zxf ../agent_package.tar.gz
         chmod -R 777 .
