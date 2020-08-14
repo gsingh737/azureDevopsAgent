@@ -10,10 +10,9 @@ packages:
 
 write_files:
 - content: |
-    #!/bin/sh
+    #!/bin/bash
     test -n "$1" || { echo "The argument az_devops_url must be provided"; exit 1; }
     az_devops_url="$1"
-    [[ "$az_devops_url" == */ ]] || { echo "The argument az_devops_url must end with /"; exit 1; }
     test -n "$2" || { echo "The argument az_devops_pat must be provided"; exit 1; }
     az_devops_pat="$2"
     test -n "$3" || { echo "The argument az_devops_agent_name must be provided"; exit 1; }
@@ -43,7 +42,9 @@ write_files:
             ca-certificates \
             jq \
             apt-transport-https \
-            docker.io
+            docker-ce \ 
+            docker-ce-cli \ 
+            containerd.io \
 
 
     echo "Allowing agent to run docker"
