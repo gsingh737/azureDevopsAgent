@@ -70,3 +70,13 @@ stages:
                     -var devops_url=$(devops_url) \
                     -var devops_pat=$(devops_pat)  \
                     -var="ssh_pub_key=$(ssh_pub_key)"
+  - stage: Destroy
+    jobs:
+      - job: Destroy
+        continueOnError: false
+        steps:
+        - task: Bash@3
+          inputs:
+           targetType: 'inline'
+           script: |
+             terrraform destroy -auto-approve
