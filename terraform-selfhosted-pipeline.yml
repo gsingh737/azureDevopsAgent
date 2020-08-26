@@ -79,4 +79,4 @@ stages:
           inputs:
            targetType: 'inline'
            script: |
-             terrraform destroy -auto-approve
+             terraform destroy -auto-approve
